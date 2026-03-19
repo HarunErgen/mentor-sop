@@ -1,0 +1,19 @@
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Dependencies and Build Artifacts
+**/node_modules/
+**/__pycache__/
+**/.venv/
+**/dist/
+frontend/dist/
+
+# Environment Variables
+.env
+backend/.env
+frontend/.env

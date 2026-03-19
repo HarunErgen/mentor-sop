@@ -1,0 +1,4 @@
+import os
+
+TOKEN_RESET_DAYS = int(os.getenv("TOKEN_RESET_DAYS", 30))
+DEFAULT_USER_TOKEN_LIMIT = int(os.getenv("DEFAULT_USER_TOKEN_LIMIT", 50000))
