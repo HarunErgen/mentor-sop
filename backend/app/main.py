@@ -19,7 +19,12 @@ app = FastAPI(title="MentorSOP Backend", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=[
+        "http://localhost:5173", 
+        "http://127.0.0.1:5173",
+        "https://mentorsop.harunergen.com",
+        "http://mentorsop.harunergen.com"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -28,7 +33,7 @@ app.add_middleware(
 app.include_router(auth_router.router)
 app.include_router(sop_router.router)
 
-@app.get("/health")
+@app.get("/api/health")
 async def health() -> dict:
     return {"status": "ok", "service": "mentorsop", "version": "0.1.0"}
 
