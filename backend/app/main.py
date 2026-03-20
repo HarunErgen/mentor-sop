@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
         await conn.run_sync(Base.metadata.create_all)
     yield
 
-app = FastAPI(title="MentorFit AI SOP Backend", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="MentorSOP Backend", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,7 +30,7 @@ app.include_router(sop_router.router)
 
 @app.get("/health")
 async def health() -> dict:
-    return {"status": "ok", "service": "mentorfit-ai-sop", "version": "0.1.0"}
+    return {"status": "ok", "service": "mentorsop", "version": "0.1.0"}
 
 if __name__ == "__main__":
     import uvicorn

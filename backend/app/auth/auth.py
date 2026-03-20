@@ -47,7 +47,7 @@ async def send_verification_email(email: str, code: str) -> None:
     message = EmailMessage()
     message["From"] = smtp_user
     message["To"] = email
-    message["Subject"] = "MentorFit SoP - Your Verification Code"
+    message["Subject"] = "MentorSOP - Your Verification Code"
     message.set_content(f"Your verification code is {code}. It will expire in 15 minutes.")
 
     try:

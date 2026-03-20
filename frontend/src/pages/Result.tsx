@@ -73,7 +73,7 @@ export default function Result() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
           <Link to="/" className="text-lg font-semibold text-slate-900">
-            MentorFit SoP
+            MentorSOP
           </Link>
           <Link to="/create" className="text-sm text-indigo-600 hover:text-indigo-700">
             Create another

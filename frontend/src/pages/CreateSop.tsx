@@ -98,7 +98,7 @@ export default function CreateSop() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
           <Link to="/" className="text-lg font-semibold text-slate-900">
-            MentorFit SoP
+            MentorSOP
           </Link>
           <Link to="/" className="text-sm text-slate-600 hover:text-slate-900">
             Home
@@ -130,8 +130,8 @@ export default function CreateSop() {
                 }
               }}
               className={`shrink-0 rounded-full px-3 py-1 text-sm font-medium ${i === step
-                  ? "bg-indigo-600 text-white"
-                  : "bg-slate-200 text-slate-600 hover:bg-slate-300"
+                ? "bg-indigo-600 text-white"
+                : "bg-slate-200 text-slate-600 hover:bg-slate-300"
                 }`}
             >
               {s.title}

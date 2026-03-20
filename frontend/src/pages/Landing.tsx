@@ -11,7 +11,7 @@ export default function Landing() {
       <header className="border-b border-slate-200 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
           <span className="text-xl font-semibold text-slate-900">
-            MentorFit SoP
+            MentorSOP
           </span>
           {isAuthenticated ? (
             <div className="flex items-center gap-4">
