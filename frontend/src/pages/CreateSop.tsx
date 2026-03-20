@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { fullUserInputSchema, defaultFullUserInput, type FullUserInputForm } from "../lib/schema";
 import { generateSop } from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import { TargetProgramForm } from "../components/TargetProgramForm";
 import { ResearchAlignmentForm } from "../components/ResearchAlignmentForm";
 import { AcademicBackgroundForm } from "../components/AcademicBackgroundForm";
@@ -50,6 +51,7 @@ function toApiPayload(data: FullUserInputForm): FullUserInput {
 
 export default function CreateSop() {
   const navigate = useNavigate();
+  const { token } = useAuth();
   const [step, setStep] = useState(0);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -84,7 +86,7 @@ export default function CreateSop() {
     setPendingData(null);
     try {
       const payload = toApiPayload(dataToSubmit);
-      const res = await generateSop(payload);
+      const res = await generateSop(payload, token);
       navigate(`/result/${res.job_id}`);
     } catch (e) {
       setSubmitError(e instanceof Error ? e.message : "Failed to start generation");

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getJobStatus, subscribeJobEvents, type JobEventSnapshot } from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import type { SOPReport } from "../types";
 
 const STEP_LABELS: Record<string, string> = {
@@ -20,6 +21,7 @@ const STEP_LABELS: Record<string, string> = {
 
 export default function Result() {
   const { jobId } = useParams<{ jobId: string }>();
+  const { token } = useAuth();
   const [snapshot, setSnapshot] = useState<JobEventSnapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,15 +35,16 @@ export default function Result() {
       apply,
       () => {
         setError("Connection lost. Falling back to polling.");
-      }
+      },
+      token
     );
 
-    getJobStatus(jobId)
+    getJobStatus(jobId, token)
       .then(apply)
       .catch((e) => setError(e instanceof Error ? e.message : "Failed to load job"));
 
     return unsubscribe;
-  }, [jobId]);
+  }, [jobId, token]);
 
   if (!jobId) {
     return (

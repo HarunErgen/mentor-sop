@@ -12,15 +12,15 @@ function getBase(): string {
   return API_BASE.replace(/\/$/, "");
 }
 
-function getAuthHeaders(): HeadersInit {
-  const token = localStorage.getItem("token");
-  return token ? { Authorization: `Bearer ${token}` } : {};
+function getAuthHeaders(token?: string | null): HeadersInit {
+  const effectiveToken = token || localStorage.getItem("token");
+  return effectiveToken ? { Authorization: `Bearer ${effectiveToken}` } : {};
 }
 
-export async function generateSop(input: FullUserInput): Promise<JobCreateResponse> {
+export async function generateSop(input: FullUserInput, token?: string | null): Promise<JobCreateResponse> {
   const res = await fetch(`${getBase()}/api/sop/generate`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+    headers: { "Content-Type": "application/json", ...getAuthHeaders(token) },
     body: JSON.stringify(input),
   });
   if (!res.ok) {
@@ -30,9 +30,9 @@ export async function generateSop(input: FullUserInput): Promise<JobCreateRespon
   return res.json();
 }
 
-export async function getJobStatus(jobId: string): Promise<JobStatusResponse> {
+export async function getJobStatus(jobId: string, token?: string | null): Promise<JobStatusResponse> {
   const res = await fetch(`${getBase()}/api/sop/jobs/${jobId}`, {
-    headers: { ...getAuthHeaders() },
+    headers: { ...getAuthHeaders(token) },
   });
   if (!res.ok) {
     const text = await res.text();
@@ -41,9 +41,9 @@ export async function getJobStatus(jobId: string): Promise<JobStatusResponse> {
   return res.json();
 }
 
-export async function getUserJobs(): Promise<ListJobsResponse> {
+export async function getUserJobs(token?: string | null): Promise<ListJobsResponse> {
   const res = await fetch(`${getBase()}/api/sop/jobs`, {
-    headers: { ...getAuthHeaders() },
+    headers: { ...getAuthHeaders(token) },
   });
   if (!res.ok) {
     const text = await res.text();
@@ -64,10 +64,11 @@ export type JobEventSnapshot = {
 export function subscribeJobEvents(
   jobId: string,
   onEvent: (data: JobEventSnapshot) => void,
-  onError?: (err: Event) => void
+  onError?: (err: Event) => void,
+  token?: string | null
 ): () => void {
-  const token = localStorage.getItem("token") || "";
-  const url = `${getBase()}/api/sop/jobs/${jobId}/events?token=${encodeURIComponent(token)}`;
+  const effectiveToken = token || localStorage.getItem("token") || "";
+  const url = `${getBase()}/api/sop/jobs/${jobId}/events?token=${encodeURIComponent(effectiveToken)}`;
   const es = new EventSource(url);
 
   es.onmessage = (e) => {

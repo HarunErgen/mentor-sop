@@ -123,15 +123,16 @@ export default function Landing() {
 }
 
 function RecentReports() {
+  const { token } = useAuth();
   const [jobs, setJobs] = useState<JobSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUserJobs()
+    getUserJobs(token)
       .then((res) => setJobs(res.jobs))
       .catch((err) => console.error("Failed to fetch jobs:", err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (
